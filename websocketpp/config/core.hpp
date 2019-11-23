@@ -92,6 +92,8 @@ struct core {
     /// RNG policies
     typedef websocketpp::random::none::int_generator<uint32_t> rng_type;
 
+    static bool const disable_utf8 = false;
+
     /// Controls compile time enabling/disabling of thread syncronization
     /// code Disabling can provide a minor performance improvement to single
     /// threaded applications

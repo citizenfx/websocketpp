@@ -100,6 +100,8 @@ struct core_client {
     typedef websocketpp::random::random_device::int_generator<uint32_t,
         concurrency_type> rng_type;
 
+    static bool const disable_utf8 = false;
+
     /// Controls compile time enabling/disabling of thread syncronization code
     /// Disabling can provide a minor performance improvement to single threaded
     /// applications
