@@ -534,7 +534,7 @@ public:
         }
 
         // ensure that text messages end on a valid UTF8 code point
-        if (frame::get_opcode(m_basic_header) == frame::opcode::TEXT) {
+        if (frame::get_opcode(m_basic_header) == frame::opcode::TEXT && !typename config::disable_utf8) {
             if (!m_current_msg->validator.complete()) {
                 return make_error_code(error::invalid_utf8);
             }
@@ -619,7 +619,7 @@ public:
         std::string& o = out->get_raw_payload();
 
         // validate payload utf8
-        if (op == frame::opcode::TEXT && !utf8_validator::validate(i)) {
+        if (op == frame::opcode::TEXT && !typename config::disable_utf8 && !utf8_validator::validate(i)) {
             return make_error_code(error::invalid_payload);
         }
 
@@ -823,7 +823,7 @@ protected:
         }
 
         // validate unmasked, decompressed values
-        if (m_current_msg->msg_ptr->get_opcode() == frame::opcode::TEXT) {
+        if (m_current_msg->msg_ptr->get_opcode() == frame::opcode::TEXT && !typename config::disable_utf8) {
             if (!m_current_msg->validator.decode(out.begin()+offset,out.end())) {
                 ec = make_error_code(error::invalid_utf8);
                 return 0;
